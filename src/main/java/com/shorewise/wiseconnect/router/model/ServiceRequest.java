@@ -15,7 +15,18 @@ public class ServiceRequest {
     @XmlElement(name = "TFILCCOR", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
     private TFILCAMN tfilccor;
     
+    @XmlElement(name = "TFSHGAPP", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
+    private TFILCAMN tfshgapp;
     
+    
+	public TFILCAMN getTfshgapp() {
+		return tfshgapp;
+	}
+
+	public void setTfshgapp(TFILCAMN tfshgapp) {
+		this.tfshgapp = tfshgapp;
+	}
+
 	public TFILCAMN getTfilccor() {
 		return tfilccor;
 	}

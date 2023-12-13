@@ -15,7 +15,7 @@ com/shorewise/wiseconnect/router/model/Revocable.class
 com/shorewise/wiseconnect/router/routing/XmlToActiveMQRoute.class
 com/shorewise/wiseconnect/router/model/TermsOfPayment.class
 com/shorewise/wiseconnect/router/routing/ActiveMQToRestRoute.class
-com/shorewise/wiseconnect/router/routing/SimpleCamelRoute.class
+com/shorewise/wiseconnect/router/model/TFSHGAPP.class
 com/shorewise/wiseconnect/router/model/Applicant.class
 com/shorewise/wiseconnect/router/model/MasterRef.class
 com/shorewise/wiseconnect/router/model/LCAmount.class
