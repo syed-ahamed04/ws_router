@@ -23,7 +23,7 @@ public class XmlToDataStore extends RouteBuilder  {
             .host("localhost")
             .bindingMode(RestBindingMode.xml)
             .apiContextPath("/api-doc")
-            .apiProperty("api.title", "Camel REST API")
+            .apiProperty("api.title", "shorewise wiseconnect router")
             .apiProperty("api.version", "1.0")
             .apiProperty("cors", "true"); // Enable CORS if needed
 
