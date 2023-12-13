@@ -1,8 +1,8 @@
 # ws_router
  wiseconnect router is spring boot API services for performing various Enterprise Data transaformations
 
- Installation
-Prerequisites:
+ # Installation
+# Prerequisites:
 
 Java JDK 11 or later
 Maven 3.6.0 or later (if not using Maven Wrapper)
@@ -17,7 +17,7 @@ Copy code
 git clone [(https://github.com/syed-ahamed04/ws_router)https://github.com/syed-ahamed04/ws_router]
 
 
-Configuration
+# Configuration
 Application Configuration
 Edit the application.properties or application.yml file under src/main/resources for basic configurations like:
 
@@ -33,45 +33,7 @@ spring.datasource.password: admin
 Additional properties for connection pooling, JPA/Hibernate settings, etc.
 
 
-
-Absolutely, including detailed information about all API endpoints, ActiveMQ configuration, and database properties in your README document is essential for comprehensive documentation. Below is an expanded template including these sections:
-
-ws_router
-Introduction
-ws_router is a Spring Boot API service designed for performing various enterprise data transformations. This service integrates with ActiveMQ for message queuing and supports various database interactions.
-
-Installation
-Prerequisites:
-
-Java JDK 11 or later
-Maven 3.6.0 or later (if not using Maven Wrapper)
-Steps:
-
-Clone the repository:
-bash
-Copy code
-git clone [repository URL]
-Navigate to the project directory:
-bash
-Copy code
-cd ws_router
-Configuration
-Application Configuration
-Edit the application.properties or application.yml file under src/main/resources for basic configurations like:
-
-Server port
-Security settings
-Logging levels
-Database Configuration
-Configure your database properties such as:
-
-spring.datasource.url: JDBC URL of the database
-spring.datasource.username: Database username
-spring.datasource.password: Database password
-Additional properties for connection pooling, JPA/Hibernate settings, etc.
-
-
-ActiveMQ Configuration
+# ActiveMQ Configuration
 Specify ActiveMQ settings:
 
 spring.activemq.broker-url: (http://localhost:8161/admin/queues.jsp)
@@ -80,102 +42,23 @@ spring.activemq.password: Password
 
 
 
-Absolutely, including detailed information about all API endpoints, ActiveMQ configuration, and database properties in your README document is essential for comprehensive documentation. Below is an expanded template including these sections:
-
-ws_router
-Introduction
-ws_router is a Spring Boot API service designed for performing various enterprise data transformations. This service integrates with ActiveMQ for message queuing and supports various database interactions.
-
-Installation
-Prerequisites:
-
-Java JDK 11 or later
-Maven 3.6.0 or later (if not using Maven Wrapper)
-Steps:
-
-Clone the repository:
-bash
-Copy code
-git clone [repository URL]
-Navigate to the project directory:
-bash
-Copy code
-cd ws_router
-Configuration
-Application Configuration
-Edit the application.properties or application.yml file under src/main/resources for basic configurations like:
-
-Server port
-Security settings
-Logging levels
-Database Configuration
-Configure your database properties such as:
-
-spring.datasource.url: JDBC URL of the database
-spring.datasource.username: Database username
-spring.datasource.password: Database password
-Additional properties for connection pooling, JPA/Hibernate settings, etc.
-ActiveMQ Configuration
-Specify ActiveMQ settings:
-
-
-Absolutely, including detailed information about all API endpoints, ActiveMQ configuration, and database properties in your README document is essential for comprehensive documentation. Below is an expanded template including these sections:
-
-ws_router
-Introduction
-ws_router is a Spring Boot API service designed for performing various enterprise data transformations. This service integrates with ActiveMQ for message queuing and supports various database interactions.
-
-Installation
-Prerequisites:
-
-Java JDK 11 or later
-Maven 3.6.0 or later (if not using Maven Wrapper)
-Steps:
-
-Clone the repository:
-bash
-Copy code
-git clone [repository URL]
-Navigate to the project directory:
-bash
-Copy code
-cd ws_router
-Configuration
-Application Configuration
-Edit the application.properties or application.yml file under src/main/resources for basic configurations like:
-
-Server port
-Security settings
-Logging levels
-Database Configuration
-Configure your database properties such as:
-
-spring.datasource.url: JDBC URL of the database
-spring.datasource.username: Database username
-spring.datasource.password: Database password
-Additional properties for connection pooling, JPA/Hibernate settings, etc.
-ActiveMQ Configuration
-Specify ActiveMQ settings:
-
-spring.activemq.broker-url: URL of the ActiveMQ broker
-spring.activemq.user: Username for the broker, if required
-spring.activemq.password: Password for the broker
-Additional configurations for queues, topics, and client settings.
-
-Running the Application
-
-:RouterApplication.java as java application
 
 
 
-API Endpoints
+
+
+# RouterApplication.java as java application
+
+
+
+# API Endpoints
 Data Transformation Endpoint
 URL: /wiseconnect/xmlToActiveMq
 Method: POST
 Description: Sends the input data to Active MQ
 
 
-Request Body: XML format 
+# Request Body: XML format 
 
 {<?xml version="1.0" encoding="UTF-8"?>
 <ServiceRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="urn:messages.service.ti.apps.tiplus2.misys.com" xmlns="urn:control.services.tiplus2.misys.com" xmlns:c="urn:common.service.ti.apps.tiplus2.misys.com" xmlns:x="urn:custom.service.ti.apps.tiplus2.misys.com">
@@ -223,7 +106,7 @@ Email: iim@sc.com</m:MessageData>
 </ServiceRequest>}
 
 
-Response: Pushes xml data in ActiveMQ -> Ingress Queue
+# Response: Pushes xml data in ActiveMQ -> Ingress Queue
 
 2) http://localhost:8092/wiseconnect/xmlToDataStore
 
