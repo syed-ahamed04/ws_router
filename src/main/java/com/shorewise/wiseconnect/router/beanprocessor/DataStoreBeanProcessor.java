@@ -6,12 +6,17 @@ import org.apache.camel.Body;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 @Component("dataStoreBeanProcessor")
 public class DataStoreBeanProcessor {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    
+    private static final Logger logger = LogManager.getLogger(DataStoreBeanProcessor.class);
+
 
     public void process(@Body String body) {
         // Example of parsing the body to extract XML and other data
@@ -27,6 +32,7 @@ public class DataStoreBeanProcessor {
 
         // Update the database using JdbcTemplate
         jdbcTemplate.update(sql, uuidString, xmlData, status, createdUser);
+        logger.info("Record inserted successfully with ID: " + uuidString);
     }
 
     // Example methods to parse the incoming message
