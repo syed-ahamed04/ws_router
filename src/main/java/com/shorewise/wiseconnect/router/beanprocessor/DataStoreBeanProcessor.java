@@ -43,7 +43,7 @@ public class DataStoreBeanProcessor {
 
     private String extractStatusFrom(String body) {
         // Implement parsing logic here
-        return "Processed"; // Return extracted status
+        return "Received"; // Return extracted status
     }
 
     private String extractUserFrom(String body) {

@@ -21,12 +21,12 @@ public class ActiveMQToRestRoute extends RouteBuilder {
             .host("localhost")
             .bindingMode(RestBindingMode.auto)
             .apiContextPath("/api-doc")
-            .apiProperty("api.title", "Camel REST API")
+            .apiProperty("api.title", "shorewise wiseconnect router")
             .apiProperty("api.version", "1.0")
             .apiProperty("cors", "true");
 
         // REST endpoint to trigger ActiveMQ consumption
-        rest("/wiseconnect/triggerActiveMq")
+        rest("/wiseconnect/processQueueMessages")
             .post()
             .route()
             .to("direct:startActiveMqConsumption")
@@ -39,7 +39,7 @@ public class ActiveMQToRestRoute extends RouteBuilder {
             .pollEnrich("activemq:queue:Ingress", (oldExchange, newExchange) -> {
                 // Here you can aggregate or combine the messages as needed
                 if (oldExchange == null) {
-                    return newExchange;
+                    return oldExchange;
                 } else {
                     // Combine or aggregate the messages in some way
                     String oldBody = oldExchange.getIn().getBody(String.class);

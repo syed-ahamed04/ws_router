@@ -10,6 +10,7 @@ com/shorewise/wiseconnect/router/model/ServiceRequest.class
 com/shorewise/wiseconnect/router/model/package-info.class
 com/shorewise/wiseconnect/router/model/Credentials.class
 com/shorewise/wiseconnect/router/model/Context.class
+com/shorewise/wiseconnect/router/routing/DataStoreToActiveMqRoute.class
 com/shorewise/wiseconnect/router/model/TFILCCOR.class
 com/shorewise/wiseconnect/router/model/Revocable.class
 com/shorewise/wiseconnect/router/routing/XmlToActiveMQRoute.class
@@ -20,5 +21,7 @@ com/shorewise/wiseconnect/router/model/Applicant.class
 com/shorewise/wiseconnect/router/model/MasterRef.class
 com/shorewise/wiseconnect/router/model/LCAmount.class
 com/shorewise/wiseconnect/router/model/RequestHeader.class
+com/shorewise/wiseconnect/router/repository/TransactionalXmlRepository.class
 com/shorewise/wiseconnect/router/routing/XmlToDataStore.class
 com/shorewise/wiseconnect/router/datasource/DataSourceConfig.class
+com/shorewise/wiseconnect/router/entity/TransactionalXml.class
