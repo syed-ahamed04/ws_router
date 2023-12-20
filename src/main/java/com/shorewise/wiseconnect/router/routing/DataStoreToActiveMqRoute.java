@@ -12,7 +12,6 @@ import com.shorewise.wiseconnect.router.model.TransactionalXmlDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Component
 public class DataStoreToActiveMqRoute extends RouteBuilder {
@@ -28,7 +27,6 @@ public class DataStoreToActiveMqRoute extends RouteBuilder {
             .post("/datastoreToActiveMQ")
                 .route()
                 .to("direct:processData")
-                .transform().simple("${header.CamelMessageId}") // Transform the response to the message ID
                 .endRest();
 
         // Route to process data
@@ -39,8 +37,7 @@ public class DataStoreToActiveMqRoute extends RouteBuilder {
                 public void process(Exchange exchange) throws Exception {
                     List<Map<String, Object>> rows = exchange.getIn().getBody(List.class);
                     if (rows.isEmpty()) {
-                    	exchange.getIn().setBody("No records to process");
-                    	 exchange.getIn().removeHeaders("*"); // Remove headers to avoid further processing
+                        exchange.getIn().setBody("No records to process");
                         exchange.setProperty(Exchange.ROUTE_STOP, Boolean.TRUE);
                         return;
                     }
@@ -68,7 +65,15 @@ public class DataStoreToActiveMqRoute extends RouteBuilder {
                 }
             })
             .marshal().jaxb()
-            .setExchangePattern(ExchangePattern.InOnly)
-            .to("activemq:queue:ProcessedQueue");
+            .setExchangePattern(ExchangePattern.InOut)
+            .to("activemq:queue:ProcessedQueue")
+            .process(exchange -> {
+                String messageBody = exchange.getIn().getBody(String.class);
+                // Process the message as needed
+                String response = "Processed: " + messageBody;
+                exchange.getIn().setBody(response);
+            })
+            .to("activemq:queue:${header.JMSReplyTo}"); // Send reply to the queue in JMSReplyTo header
+    	
     }
 }
