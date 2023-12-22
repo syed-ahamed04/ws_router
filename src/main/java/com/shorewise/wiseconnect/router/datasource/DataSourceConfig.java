@@ -26,12 +26,7 @@ public class DataSourceConfig {
     }
     
     
-    @Bean
-    public ActiveMQConnectionFactory connectionFactory(){
-    	ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
-    	factory.setTrustedPackages(Arrays.asList("java.lang","com.shorewise.wiseconnect.router.entity"));
-		return factory;
-    }
+  
 	/*
 	 * @Bean(name = "dataSource") public DataSource dataSource() {
 	 * DriverManagerDataSource dataSource = new DriverManagerDataSource();
