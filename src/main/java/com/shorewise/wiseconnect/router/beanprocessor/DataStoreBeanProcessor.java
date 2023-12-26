@@ -12,7 +12,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.camel.Body;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.InvalidResultSetAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -45,32 +44,20 @@ public class DataStoreBeanProcessor {
     	//recordExists(id);
     	// SQL statement with placeholders for parameters
     	
-    	String insertSQL = "INSERT INTO xml_storage.transactional_xml "
-    			+ "(id, xml_data, operation_type, status, created_user, updated_user, created_at, updated_at) "
+    	String insertSQL = "INSERT INTO xml_storage.TransactionData "
+    			+ "(id, ti_request, operation_type, status, created_user, updated_user, created_at, updated_at) "
     			+ "VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
     	
-    	String updateSQL = "UPDATE xml_storage.transactional_xml SET xml_data = ?, operation_type = ?, status = ?, updated_user = ?,"
-    			+ "updated_at = CURRENT_TIMESTAMP WHERE id = ?";
-
+    	
     	try {
     		if(!recordExists(id)) {
     			logger.info("Inserting record into database");
     			int res = insertRecord(insertSQL, uuidString, xmlData, operation, status, user);
     			logger.info("Record inserted successfully with ID: " + uuidString);
     		}
-    		else {
-    			user="truser02";
-    			logger.info("Updating record in database");
-    			System.out.println("Update SQL: UPDATE xml_storage.transactional_xml SET xml_data = '"+ xmlData + "', operation_type= '"+operation+"', status = '" + status +
-    					"', updated_user = '"+ user +"',updated_at = CURRENT_TIMESTAMP WHERE id = '"+id+'\'');
-    			int res = updateRecord(updateSQL, xmlData, operation, status, user, id);
-    			logger.info("Record updated successfully for ID: " + id);
-    		}
+    		
     	}
-    	catch (InvalidResultSetAccessException e) 
-    	{
-    		throw new RuntimeException(e);
-    	} 
+    	
     	catch (DataAccessException e)
     	{
     		logger.info("Record cannot be inserted/updated into DB due to an exception."+ e);
@@ -80,7 +67,7 @@ public class DataStoreBeanProcessor {
     
     //Check if entry already exists in database
     private boolean recordExists(String id) {
-    	String sql = "SELECT * from xml_storage.transactional_xml where id = '"+id+"'";
+    	String sql = "SELECT * from xml_storage.TransactionData where id = '"+id+"'";
     	return !jdbcTemplate.queryForList(sql).isEmpty();
     }
     
@@ -89,11 +76,7 @@ public class DataStoreBeanProcessor {
     	return jdbcTemplate.update(insertSQL, uuidString, xmlData, operation, status, createdUser, createdUser);
     }
     
-    //Update an entry in xml_storage.transactional_xml table using id as an identifier
-    private int updateRecord(String updateSQL, String xmlData, String operation, String status, String updated_user, String uuidString) {
-    	return jdbcTemplate.update(updateSQL, xmlData, operation, status, updated_user, uuidString);
-    }
-
+  
     // Example methods to parse the incoming message
     private String extractXmlFrom(String body) {
         // Implement parsing logic here
