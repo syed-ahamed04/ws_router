@@ -1,5 +1,6 @@
 package com.shorewise.wiseconnect.router.routing;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
@@ -10,22 +11,27 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 @Component
-public class XmlToDataStore extends RouteBuilder  {
-    
+public class XmlToDataStore extends RouteBuilder {
+
     private static final Logger logger = LogManager.getLogger(XmlToDataStore.class);
 
     @Override
     public void configure() {
-        // Configure REST DSL and Swagger
+        // Global exception handling
+        onException(Exception.class)
+            .handled(true)
+            .process(exchange -> {
+                Exception cause = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
+                logger.error("Exception caught in route: {}", cause.getMessage());
+                exchange.getIn().setBody("Error processing request: " + cause.getMessage());
+            })
+            .log("Processed exception in the route");
+
+        // Configure REST DSL
         restConfiguration()
             .component("servlet")
-            .port(8092)
-            .host("localhost")
             .bindingMode(RestBindingMode.xml)
-            .apiContextPath("/api-doc")
-            .apiProperty("api.title", "shorewise wiseconnect router")
-            .apiProperty("api.version", "1.0")
-            .apiProperty("cors", "true"); // Enable CORS if needed
+            .apiContextPath("/api-doc");
 
         // Define REST service
         rest("/wiseconnect")
@@ -35,9 +41,21 @@ public class XmlToDataStore extends RouteBuilder  {
             .type(ServiceRequest.class)
             .route()
                 .process(exchange -> logger.info("Received XML message: {}", exchange.getIn().getBody(String.class)))
-                .setExchangePattern(ExchangePattern.InOnly)
-                .to("bean:dataStoreBeanProcessor")
-                .process(exchange -> logger.info("XML message processed by DataStoreBeanProcessor"))
+                .to("bean:dataStoreBeanProcessor") // Assuming this processor persists the XML and returns an ID
+                .process(exchange -> {
+                    String id = exchange.getIn().getBody(String.class);
+                    exchange.setProperty("persistedId", id);
+                    logger.info("XML message processed and persisted with ID: {}", id);
+                })
+                .to("direct:processToActiveMQ")
             .endRest();
+
+        from("direct:processToActiveMQ")
+            .process(exchange -> {
+                String id = exchange.getProperty("persistedId", String.class);
+                exchange.getIn().setHeader("id", id);
+                logger.info("Forwarding ID to ActiveMQ route: {}", id);
+            })
+            .to("direct:readAndSendToActiveMQ");
     }
 }

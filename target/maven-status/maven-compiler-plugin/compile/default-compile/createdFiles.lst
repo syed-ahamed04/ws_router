@@ -1,5 +1,6 @@
 com/shorewise/wiseconnect/router/model/Revolving.class
 com/shorewise/wiseconnect/router/model/TFILCAMN.class
+com/shorewise/wiseconnect/router/beanprocessor/CamelConfig$1.class
 com/shorewise/wiseconnect/router/model/IncreaseAmount.class
 com/shorewise/wiseconnect/router/model/EventNotifications.class
 com/shorewise/wiseconnect/router/RouterApplication.class
@@ -22,6 +23,7 @@ com/shorewise/wiseconnect/router/beanprocessor/ActiveMqResponseBeanProcessor.cla
 com/shorewise/wiseconnect/router/model/TFCOLNEW.class
 com/shorewise/wiseconnect/router/model/TFSHGAPP.class
 com/shorewise/wiseconnect/router/model/Applicant.class
+com/shorewise/wiseconnect/router/beanprocessor/CamelConfig.class
 com/shorewise/wiseconnect/router/model/TFILCAPP.class
 com/shorewise/wiseconnect/router/model/MasterRef.class
 com/shorewise/wiseconnect/router/model/LCAmount.class

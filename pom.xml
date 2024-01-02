@@ -86,7 +86,7 @@
 			<artifactId>camel-jms</artifactId>
 			<version>2.24.0</version>
 		</dependency>
-		
+
 		<!-- PostgreSQL JDBC Driver -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -121,6 +121,12 @@
 			<artifactId>camel-sql</artifactId>
 			<version>2.24.0</version> <!-- Use the version that matches your
 			Camel version -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http</artifactId>
+			<version>2.24.0</version>  <!-- replace with your Camel version -->
 		</dependency>
 
 

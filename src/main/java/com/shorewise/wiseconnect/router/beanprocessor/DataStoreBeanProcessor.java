@@ -3,13 +3,12 @@ package com.shorewise.wiseconnect.router.beanprocessor;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.UUID;
-
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.camel.Body;
+import org.apache.camel.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,57 +25,39 @@ public class DataStoreBeanProcessor {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    
+
     private static final Logger logger = LogManager.getLogger(DataStoreBeanProcessor.class);
 
-    String operation;
+    public void process(@Body String body, Exchange exchange) {
+        logger.info("Processing message with Body: {}", body);
 
-    public void process(@Body String body) {
-    	// Example of parsing the body to extract XML and other data
-    	// This parsing depends on the format of 'body'
-    	String xmlData = extractXmlFrom(body); // Implement this method based on your data format
-    	String status = extractStatusFrom(body); // Similarly extract status
-    	String user = extractUserFrom(body); // And the user
-    	UUID uuid = UUID.randomUUID();
-    	String uuidString = uuid.toString();
-    	String id = "d55cae9f-c859-4a81-ae33-bc27f1250edc";//extractUUIDFrom(body);
-    	xmlParser(body);
-    	//recordExists(id);
-    	// SQL statement with placeholders for parameters
-    	
-    	String insertSQL = "INSERT INTO xml_storage.TransactionData "
-    			+ "(id, ti_request, operation_type, status, created_user, updated_user, created_at, updated_at) "
-    			+ "VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
-    	
-    	
-    	try {
-    		if(!recordExists(id)) {
-    			logger.info("Inserting record into database");
-    			int res = insertRecord(insertSQL, uuidString, xmlData, operation, status, user);
-    			logger.info("Record inserted successfully with ID: " + uuidString);
-    		}
-    		
-    	}
-    	
-    	catch (DataAccessException e)
-    	{
-    		logger.info("Record cannot be inserted/updated into DB due to an exception."+ e);
-    		throw new RuntimeException(e);
-    	}
+        String xmlData = extractXmlFrom(body); // Implement this method based on your data format
+        String operation = extractOperationFrom(xmlData);
+        String status = extractStatusFrom(body); // Similarly extract status
+        String user = extractUserFrom(body); // And the user
+        UUID uuid = UUID.randomUUID();
+        String uuidString = uuid.toString();
+
+        String insertSQL = "INSERT INTO xml_storage.TransactionData "
+                + "(id, ti_request, operation_type, status, created_user, updated_user, created_at, updated_at) "
+                + "VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+
+        try {
+            logger.info("Inserting record into database");
+            int res = insertRecord(insertSQL, uuidString, xmlData, operation, status, user);
+            logger.info("Record inserted successfully with ID: {}", uuidString);
+            exchange.getOut().setBody(uuidString);
+        } catch (DataAccessException e) {
+            logger.error("Record cannot be inserted/updated into DB due to an exception.", e);
+            exchange.getOut().setBody("Error inserting record");
+        }
     }
-    
-    //Check if entry already exists in database
-    private boolean recordExists(String id) {
-    	String sql = "SELECT * from xml_storage.TransactionData where id = '"+id+"'";
-    	return !jdbcTemplate.queryForList(sql).isEmpty();
-    }
-    
+
     //Insert new entry into xml_storage.transactional_xml
     private int insertRecord(String insertSQL, String uuidString, String xmlData, String operation, String status, String createdUser) {
-    	return jdbcTemplate.update(insertSQL, uuidString, xmlData, operation, status, createdUser, createdUser);
+        return jdbcTemplate.update(insertSQL, uuidString, xmlData, operation, status, createdUser, createdUser);
     }
-    
-  
+
     // Example methods to parse the incoming message
     private String extractXmlFrom(String body) {
         // Implement parsing logic here
@@ -92,43 +73,28 @@ public class DataStoreBeanProcessor {
         // Implement parsing logic here
         return "truser01"; // Return extracted user
     }
-    
-    private void xmlParser(String xmlData) {
-    	// Instantiate the Factory
-    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    	dbf.setNamespaceAware(true);
-    	try {
 
-    		// process XML securely, avoid attacks like XML External Entities (XXE)
-    		dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    private String extractOperationFrom(String xmlData) {
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setNamespaceAware(true);
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-    		// parse XML file
-    		DocumentBuilder db = dbf.newDocumentBuilder();
-    		Document doc = db.parse(new InputSource(new StringReader(xmlData)));
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new InputSource(new StringReader(xmlData)));
+            doc.getDocumentElement().normalize();
 
-    		doc.getDocumentElement().normalize();
-
-    		//System.out.println("Root Element :" + doc.getDocumentElement().getNodeName());
-
-    		//String user = getElementValue(doc, "urn:control.services.tiplus2.misys.com", "User");
-    		operation = getElementValue(doc, "urn:control.services.tiplus2.misys.com", "Operation");
-    		String credentials = getElementValue(doc, "urn:control.services.tiplus2.misys.com", "Credentials");
-    		String reference = getElementValue(doc, "urn:common.service.ti.apps.tiplus2.misys.com", "Reference");
-    				
-    		//String customer = getElementValue(doc, "urn:common.service.ti.apps.tiplus2.misys.com", "Customer");
-
-    		System.out.println("Operation: "+operation+
-    				" Reference: "+reference+" Credentials: "+credentials);
-
-    	} catch (ParserConfigurationException | SAXException | IOException e) {
-    		logger.info("XML cannot be parsed due to an exception."+ e);
-    	}
+            return getElementValue(doc, "urn:control.services.tiplus2.misys.com", "Operation");
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            logger.error("XML cannot be parsed due to an exception.", e);
+            return "";
+        }
     }
-    
-    
-    //Get Element Value by Tag Name - Name Space
+
     private String getElementValue(Document doc, String url, String element) {
-    	NodeList list = doc.getElementsByTagNameNS(url, element);    	
-    	return list.getLength()!=0 ? list.item(0).getTextContent() : "";
+        NodeList list = doc.getElementsByTagNameNS(url, element);
+        return list.getLength() != 0 ? list.item(0).getTextContent() : "";
     }
+
+    
 }
