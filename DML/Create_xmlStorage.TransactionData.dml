@@ -1,0 +1,21 @@
+/*
+MiddleWare	 : WiseConnect
+Author		 : Syed Zubair Ahamed & Anjali Gopal
+Creation Date: 03 Jan 2024
+*/
+
+
+CREATE TABLE xml_storage.TransactionData (
+	id VARCHAR(255) PRIMARY KEY,
+   	ti_request VARCHAR(20000),
+	ti_response VARCHAR(20000),
+	operation_type CHAR(8),
+	customer_id CHAR(20),
+    status VARCHAR(24),
+	master_ref VARCHAR(24),
+	event_ref VARCHAR(24),
+    created_user VARCHAR(24),
+    updated_user VARCHAR(24),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
