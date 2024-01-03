@@ -6,13 +6,14 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import com.shorewise.wiseconnect.router.model.ServiceRequest;
+import com.shorewise.wiseconnect.router.model.TFCOLNEW;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 @Component
-public class XmlToDataStore extends RouteBuilder {
-
+public class XmlToDataStore extends RouteBuilder  {
+    
     private static final Logger logger = LogManager.getLogger(XmlToDataStore.class);
 
     @Override
@@ -38,7 +39,7 @@ public class XmlToDataStore extends RouteBuilder {
             .post("/transactions/save")
             .consumes(MediaType.APPLICATION_XML_VALUE)
             .produces(MediaType.APPLICATION_JSON_VALUE)
-            .type(ServiceRequest.class)
+            .type(TFCOLNEW.class)
             .route()
                 .process(exchange -> logger.info("Received XML message: {}", exchange.getIn().getBody(String.class)))
                 .to("bean:dataStoreBeanProcessor") // Assuming this processor persists the XML and returns an ID

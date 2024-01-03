@@ -9,6 +9,9 @@ public class Context {
     @XmlElement(name = "Customer", namespace = "urn:common.service.ti.apps.tiplus2.misys.com")
     private String customer;
     
+    @XmlElement(name = "Product", namespace = "urn:common.service.ti.apps.tiplus2.misys.com")
+    private String product;
+    
     @XmlElement(name = "OurReference", namespace = "urn:common.service.ti.apps.tiplus2.misys.com")
     private String ourReference;
 

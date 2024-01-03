@@ -4,7 +4,7 @@ package com.shorewise.wiseconnect.router.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "EventNotifications", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
+//@XmlRootElement(name = "EventNotifications", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
 public class EventNotifications {
     private String messageData;
     private String messageDescription;
