@@ -3,7 +3,7 @@ package com.shorewise.wiseconnect.router.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "IncreaseAmount", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
+//@XmlRootElement(name = "IncreaseAmount", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
 public class IncreaseAmount {
     private String amount;
     private String currency;

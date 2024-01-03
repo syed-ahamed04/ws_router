@@ -6,7 +6,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import com.shorewise.wiseconnect.router.model.ServiceRequest;
+import com.shorewise.wiseconnect.router.model.TFCOLNEW;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -33,7 +34,7 @@ public class XmlToActiveMQRoute extends RouteBuilder {
             .post("/transactions/submitTomq")
             .consumes(MediaType.APPLICATION_XML_VALUE)
             .produces(MediaType.APPLICATION_JSON_VALUE)
-            .type(ServiceRequest.class)
+            .type(TFCOLNEW.class)
             .route()
                 .process(exchange -> logger.info("Received XML message: {}", exchange.getIn().getBody(String.class)))
                 .setExchangePattern(ExchangePattern.InOnly)

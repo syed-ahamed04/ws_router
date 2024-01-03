@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@XmlRootElement(name = "TFILCAPP", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Setter

@@ -6,9 +6,10 @@ import javax.xml.bind.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@XmlRootElement(name = "TFSHGCOR", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
+@XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Setter
-@XmlAccessorType(XmlAccessType.FIELD)
 public class TFSHGCOR {
 
     @XmlElement(name = "EventNotificationss", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")

@@ -1,7 +1,7 @@
 package com.shorewise.wiseconnect.router.model;
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name = "ServiceRequest")
+//@XmlRootElement(name = "ServiceRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ServiceRequest {
 

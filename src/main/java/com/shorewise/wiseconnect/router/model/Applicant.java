@@ -3,7 +3,7 @@ package com.shorewise.wiseconnect.router.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "Applicant", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
+//@XmlRootElement(name = "Applicant", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
 public class Applicant {
     private String customer;
     private String reference;

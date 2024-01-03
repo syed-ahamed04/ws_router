@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@XmlRootElement(name = "TFCOLNEW", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Setter
@@ -44,8 +45,8 @@ public class TFCOLNEW {
     @XmlElement(name = "eBankMasterRef", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
     private String eBankMasterRef;
     
-    @XmlElement(name = "eBankEvent", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
-    private String eBankEvent;
+    @XmlElement(name = "eBankEventRef", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
+    private String eBankEventRef;
     
     @XmlElement(name = "Sender", namespace = "urn:messages.service.ti.apps.tiplus2.misys.com")
     private Sender sender;
