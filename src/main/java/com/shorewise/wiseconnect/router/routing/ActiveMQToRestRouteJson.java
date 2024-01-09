@@ -8,7 +8,7 @@ public class ActiveMQToRestRouteJson extends RouteBuilder {
 
 	 @Override
 	    public void configure() throws Exception {
-	        from("activemq:queue:Processed")
+	        from("activemq:queue:Processed_new")
 	            .routeId("activeMqToDatabaseRoute")
 	            .log("Received message from ActiveMQ: ${body}")
 	            .bean("activeMqResponseBeanProcessor")
